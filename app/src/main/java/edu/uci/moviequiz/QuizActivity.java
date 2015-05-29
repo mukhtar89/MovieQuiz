@@ -12,6 +12,8 @@ public class QuizActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz);
+
+        QuizDBLoader loader = new QuizDBLoader(this);
     }
 
     @Override
