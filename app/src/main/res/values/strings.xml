@@ -3,11 +3,10 @@
 
     <string name="hello_world">Welcome to Movie Quiz!</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_quiz">QuizActivity</string>
 
     <string name="take_button">Take Quiz</string>
     <string name="stat_button">Show Statistics</string>
-    <string name="title_activity_stat">StatActivity</string>
+
     <string name="quiz_stat">Quiz Statistics</string>
     <string name="quiz_take">Movie Quiz</string>
     <string name="scoreString">Your total Score:</string>
@@ -15,4 +14,5 @@
     <string name="spentString">Time spent on each question:</string>
     <string name="incorrectString">Number of Incorrect answers:</string>
     <string name="correctString">Number of Correct answers:</string>
+    <string name="submit_choice">Submit Answer</string>
 </resources>
