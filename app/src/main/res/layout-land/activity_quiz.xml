@@ -1,0 +1,119 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="edu.uci.moviequiz.QuizActivity">
+
+    <TextView android:text="@string/quiz_take"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView"
+        android:padding="10sp"
+        android:textColor="#0064A4"
+        android:textSize="25sp"
+        android:textAlignment="gravity"
+        android:gravity="center" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Large Text"
+        android:id="@+id/quizQuest"
+        android:layout_marginTop="40sp" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/textView"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="40sp">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="350sp"
+            android:layout_height="match_parent">
+
+
+        <RadioGroup
+            android:layout_width="300sp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10sp">
+
+            <RadioButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="New RadioButton1"
+                android:id="@+id/radioChoice1"
+                android:gravity="left"
+                android:layout_marginLeft="10sp"
+                android:paddingTop="10sp"
+                android:paddingBottom="10sp" />
+
+            <RadioButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="New RadioButton2"
+                android:id="@+id/radioChoice2"
+                android:gravity="left"
+                android:layout_marginLeft="10sp"
+                android:paddingTop="10sp"
+                android:paddingBottom="10sp" />
+
+            <RadioButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="New RadioButton3"
+                android:id="@+id/radioChoice3"
+                android:gravity="left"
+                android:layout_marginLeft="10sp"
+                android:paddingTop="10sp"
+                android:paddingBottom="10sp" />
+
+            <RadioButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="New RadioButton4"
+                android:id="@+id/radioChoice4"
+                android:gravity="left"
+                android:layout_marginLeft="10sp"
+                android:paddingTop="10sp"
+                android:paddingBottom="10sp" />
+
+        </RadioGroup>
+        </LinearLayout>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="280sp"
+        android:layout_height="match_parent">
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/submit_choice"
+            android:id="@+id/submit"
+            android:layout_gravity="center_horizontal"
+            android:padding="15sp"
+            android:layout_marginTop="30sp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Medium Text"
+            android:id="@+id/decision"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Medium Text"
+            android:id="@+id/timeLabel"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="7sp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

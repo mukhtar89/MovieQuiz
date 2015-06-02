@@ -109,15 +109,16 @@ public class QuizDBLoader extends SQLiteOpenHelper {
              table = "movies";
              break;
          case 2:
+             String exp="";
              for (int j = 0; j < 4; j++) {
                  r = new Random();
                  ran = r.nextInt(240);
-                 cs = mDb.rawQuery("select year from movies limit 1 offset " + ran, null);
+                 cs = mDb.rawQuery("select year from movies where year!='1700'" + exp + " limit 1 offset " + ran, null);
 
                  cs.moveToFirst();
                  while (!cs.isAfterLast()) {
                      options[i] = Integer.toString(cs.getInt(0));
-
+                     exp=exp+" and year !='"+options[i]+"'";
                      cs.moveToNext();
                  }
                  i++;
