@@ -46,15 +46,32 @@ public class StatDBAdapter extends SQLiteOpenHelper {
     @Override
     public void onCreate (SQLiteDatabase db) {
         db.execSQL(CREATE_TABLE);
-        Cursor curr = db.query(TABLE_NAME, new String[]{SCORE, ATTEMPT, CORRECT, INCORRECT, SPENT}, null, null, null, null, null);
+        Cursor curr = fetchAll();
         if (curr.getCount() == 0) {
             ContentValues values = new ContentValues();
-            values.put("SCORE",1);
-            values.put("ATTEMPT",2);
-            values.put("CORRECT",3);
-            values.put("INCORRECT",4);
-            values.put("SPENT",5);
+            values.put("SCORE",0);
+            values.put("ATTEMPT",0);
+            values.put("CORRECT",0);
+            values.put("INCORRECT",0);
+            values.put("SPENT",0);
             db.insert(TABLE_NAME, null, values);
+        }
+    }
+
+    public void resetDB() {
+        mDb.execSQL("DELETE FROM TABLE IF EXISTS " + TABLE_NAME);
+    }
+
+    public void updateDB (boolean correct, int spent) {
+        Cursor curr = fetchAll();
+        if (curr.getCount() != 0) {
+            ContentValues values = new ContentValues();
+            values.put("SCORE", correct ? curr.getInt(0) + 1 : curr.getInt(0));
+            values.put("ATTEMPT",curr.getInt(1) + 1);
+            values.put("CORRECT",correct ? curr.getInt(2) + 1 : curr.getInt(2));
+            values.put("INCORRECT",correct ? curr.getInt(3) : curr.getInt(3) + 1);
+            values.put("SPENT",curr.getInt(4) + spent);
+            mDb.update(TABLE_NAME, values, null, null);
         }
     }
 

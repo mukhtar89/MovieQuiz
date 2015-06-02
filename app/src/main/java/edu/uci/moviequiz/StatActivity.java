@@ -5,6 +5,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -24,18 +25,25 @@ public class StatActivity extends ActionBarActivity {
         correct = (TextView) findViewById(R.id.correctValue);
         incorrect = (TextView) findViewById(R.id.incorrectValue);
         spent = (TextView) findViewById(R.id.spentValue);
-        StatDBAdapter db = new StatDBAdapter(this);
+        final StatDBAdapter db = new StatDBAdapter(this);
         Cursor cur = db.fetchAll();
 
-        cur.moveToFirst();
-        while (!cur.isAfterLast()) {
+        if (cur.moveToFirst()) {
             score.setText(cur.getString(0));
             attempt.setText(cur.getString(1));
             correct.setText(cur.getString(2));
             incorrect.setText(cur.getString(3));
             spent.setText(cur.getString(4));
-            cur.moveToNext();
         }
+
+        reset = (Button) findViewById(R.id.statReset);
+        reset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                db.resetDB();
+            }
+        });
+
     }
 
     @Override

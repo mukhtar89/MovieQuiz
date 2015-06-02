@@ -23,6 +23,8 @@ public class QuizActivity extends ActionBarActivity {
     private long mStart;
     private static final long duration = 11000;
     Button submit;
+    private StatDBAdapter stats = new StatDBAdapter(this);
+
     private Runnable updateTask = new Runnable() {
         public void run() {
             long now = SystemClock.uptimeMillis();
@@ -94,10 +96,12 @@ public class QuizActivity extends ActionBarActivity {
             public void onClick(View view) {
                 if(radio[ans_no].isChecked()){
                     descion.setTextColor(Color.GREEN); descion.setText("correct");
+                    stats.updateDB(true,6);
                 }
                 else {
                     descion.setText("incorrect");
                     descion.setTextColor(Color.RED);
+                    stats.updateDB(false,6);
                 }
 
                 new Handler().postDelayed(new Runnable()  {
