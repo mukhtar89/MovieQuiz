@@ -1,5 +1,7 @@
 package edu.uci.moviequiz;
 
+import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -33,7 +35,7 @@ public class StatActivity extends ActionBarActivity {
             attempt.setText(cur.getString(1));
             correct.setText(cur.getString(2));
             incorrect.setText(cur.getString(3));
-            spent.setText(cur.getString(4));
+            spent.setText(cur.getString(4) + " secs");
         }
 
         reset = (Button) findViewById(R.id.statReset);
@@ -41,6 +43,8 @@ public class StatActivity extends ActionBarActivity {
             @Override
             public void onClick(View view) {
                 db.resetDB();
+                Intent intent = new Intent(StatActivity.this, StatActivity.class);
+                startActivity(intent);
             }
         });
 

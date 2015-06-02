@@ -20,15 +20,15 @@ public class QuizActivity extends ActionBarActivity {
     private TextView mTimeLabel;
     private Handler mHandler = new Handler();
     Intent intent;
-    private long mStart;
+    private long mStart, elapsed;
     private static final long duration = 11000;
     Button submit;
-    private StatDBAdapter stats = new StatDBAdapter(this);
+    private StatDBAdapter stats;
 
     private Runnable updateTask = new Runnable() {
         public void run() {
             long now = SystemClock.uptimeMillis();
-            long elapsed = duration - (now - mStart);
+            elapsed = duration - (now - mStart);
 
             if (elapsed > 0) {
                 int seconds = (int) (elapsed / 1000);
@@ -48,6 +48,7 @@ public class QuizActivity extends ActionBarActivity {
                 mTimeLabel.setText("Times up");
                 mHandler.removeCallbacks(this);
                 submit.setText("Next");
+                stats.updateDB(false, (int) (duration - elapsed));
                // Intent intent = new Intent(QuizActivity.this, QuizActivity.class);
               //  startActivity(intent);
               // finish();
@@ -64,6 +65,7 @@ public class QuizActivity extends ActionBarActivity {
         intent = new Intent(QuizActivity.this, QuizActivity.class);
         mTimeLabel = (TextView)this.findViewById(R.id.timeLabel);
         mStart = SystemClock.uptimeMillis();
+        stats = new StatDBAdapter(this);
         mHandler.post(updateTask);
 
         TextView question = (TextView)findViewById(R.id.quizQuest);
@@ -96,12 +98,12 @@ public class QuizActivity extends ActionBarActivity {
             public void onClick(View view) {
                 if(radio[ans_no].isChecked()){
                     descion.setTextColor(Color.GREEN); descion.setText("correct");
-                    stats.updateDB(true,6);
+                    stats.updateDB(true, (int) (duration - elapsed));
                 }
                 else {
                     descion.setText("incorrect");
                     descion.setTextColor(Color.RED);
-                    stats.updateDB(false,6);
+                    stats.updateDB(false, (int) (duration - elapsed));
                 }
 
                 new Handler().postDelayed(new Runnable()  {
