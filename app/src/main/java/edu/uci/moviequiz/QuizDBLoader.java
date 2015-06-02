@@ -201,15 +201,17 @@ public class QuizDBLoader extends SQLiteOpenHelper {
                //  qs.setQuestion("select title,first_name, last_name from movies  join stars  ,stars_in_movies  where movies._id=stars_in_movies.movie_id and stars_in_movies.star_id=stars._id and movies.title=" + cur.getString(0)+ " and first_name !=" + cur.getString(1).replace('"', ' ').replace(" ", "'") + " and last_name !=" + cur.getString(2).replace('"', ' ').replace(" ", "'") + "");
                String title_holder=cur.getString(0);
                 title_holder=title_holder.replaceAll("\"","'");
-                String query="select cast(title as text), year from movies where cast(title as text) = 'The Matrix' limit 1";
+                String query="select title, year from movies where title = 'The Matrix' limit 1";
 
                 qs.setQuestion(query);
 
-                Cursor cur2= mDb.rawQuery(query, null);
+                Cursor cur2= mDb.rawQuery("select title, year from movies limit 1", null);
+                //Cursor cur2= mDb.rawQuery(query, null);
 
                 if( cur2.moveToFirst() ) {
-
-                      qs.setQuestion("Which star was in the movie " + cur.getString(0).replace('"', ' ') + cur.getString(1).replace('"', ' ') + cur.getString(2).replace('"', ' ') + " and " + cur2.getString(1).replace('"', ' ') + cur2.getString(2).replace('"', ' ') + " appear together?");
+                    qs.setQuestion(cur2.getString(0) + cur2.getString(1));
+                    cur2.moveToNext();
+                      //qs.setQuestion("Which star was in the movie " + cur.getString(0).replace('"', ' ') + cur.getString(1).replace('"', ' ') + cur.getString(2).replace('"', ' ') + " and " + cur2.getString(1).replace('"', ' ') + cur2.getString(2).replace('"', ' ') + " appear together?");
                 }
                     qs.setAnswer(cur.getString(1).replace('"', ' ') + cur.getString(2).replace('"',' '));
                 break;
