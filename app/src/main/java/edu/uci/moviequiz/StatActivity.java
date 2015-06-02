@@ -5,12 +5,14 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.TextView;
 
 
 public class StatActivity extends ActionBarActivity {
 
     private TextView score, attempt, correct, incorrect, spent;
+    private Button reset;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

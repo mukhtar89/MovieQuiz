@@ -71,7 +71,7 @@ public class QuizActivity extends ActionBarActivity {
         Random r = new Random();
         int selection=r.nextInt(5)+1;
 
-        QuizDBLoader.QuestAns questAns = loader.makeQuest(selection);
+        QuizDBLoader.QuestAns questAns = loader.makeQuest(4);
         String option[] = loader.getOptions(selection);
         question.setText(questAns.getQuestion());
         radio[0]= (RadioButton)findViewById(R.id.radioChoice1);

@@ -15,4 +15,5 @@
     <string name="incorrectString">Number of Incorrect answers:</string>
     <string name="correctString">Number of Correct answers:</string>
     <string name="submit_choice">Submit Answer</string>
+    <string name="statResetText">Reset Statistics</string>
 </resources>
