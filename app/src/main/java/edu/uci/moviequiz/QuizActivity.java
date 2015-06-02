@@ -19,9 +19,10 @@ import java.util.Random;
 public class QuizActivity extends ActionBarActivity {
     private TextView mTimeLabel;
     private Handler mHandler = new Handler();
+    Intent intent;
     private long mStart;
-    private static final long duration = 10000;
-
+    private static final long duration = 11000;
+    Button submit;
     private Runnable updateTask = new Runnable() {
         public void run() {
             long now = SystemClock.uptimeMillis();
@@ -38,19 +39,27 @@ public class QuizActivity extends ActionBarActivity {
                     mTimeLabel.setText("" + minutes + ":" + seconds);
                 }
 
-              //  mHandler.postAtTime(this, now + 1000);
+                 mHandler.postAtTime(this, now + 1000);
             }
             else {
+                mTimeLabel.setTextColor(Color.RED);
+                mTimeLabel.setText("Times up");
                 mHandler.removeCallbacks(this);
-                finish();
+                submit.setText("Next");
+               // Intent intent = new Intent(QuizActivity.this, QuizActivity.class);
+              //  startActivity(intent);
+              // finish();
             }
+
         }
+
     };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz);
+        intent = new Intent(QuizActivity.this, QuizActivity.class);
         mTimeLabel = (TextView)this.findViewById(R.id.timeLabel);
         mStart = SystemClock.uptimeMillis();
         mHandler.post(updateTask);
@@ -78,7 +87,7 @@ public class QuizActivity extends ActionBarActivity {
         final TextView descion = (TextView)findViewById(R.id.decision);
         descion.setText("");
         descion.setTextSize(25);
-        Button submit = (Button)findViewById(R.id.submit);
+        submit = (Button)findViewById(R.id.submit);
 
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,11 +99,14 @@ public class QuizActivity extends ActionBarActivity {
                     descion.setText("incorrect");
                     descion.setTextColor(Color.RED);
                 }
-                new Handler().postDelayed(new Runnable() {
+
+                new Handler().postDelayed(new Runnable()  {
                     @Override
                     public void run() {
-                Intent intent = new Intent(QuizActivity.this, QuizActivity.class);
-                startActivity(intent);
+                        mHandler.removeCallbacks(updateTask);
+                        mHandler.removeCallbacks(this);
+                        startActivity(intent);
+
                 finish();
                     }
                 }, 1000);
