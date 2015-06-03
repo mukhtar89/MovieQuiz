@@ -89,74 +89,75 @@ public class QuizDBLoader extends SQLiteOpenHelper {
             iter++;
         }
     }
- public  String[] getOptions(int option){
-     String [] options= new String[4];
-     int i = 0;
-     Random r;
-     int ran;
-     Cursor cs;
-     String col="",table="";
-     switch (option) {
 
-         case 4:
-             col = "title";
-             table = "movies";
-          break;
-         case 1:
-         case 6:
-         case 5:
-             col = "director";
-             table = "movies";
-             break;
-         case 2:
-             String exp="";
-             for (int j = 0; j < 4; j++) {
-                 r = new Random();
-                 ran = r.nextInt(240);
-                 cs = mDb.rawQuery("select year from movies where year!='1700'" + exp + " limit 1 offset " + ran, null);
+        public  String[] getOptions(int option){
+             String [] options= new String[4];
+             int i = 0;
+             Random r;
+             int ran;
+             Cursor cs;
+             String col="",table="";
+             switch (option) {
 
-                 cs.moveToFirst();
-                 while (!cs.isAfterLast()) {
-                     options[i] = Integer.toString(cs.getInt(0));
-                     exp=exp+" and year !='"+options[i]+"'";
-                     cs.moveToNext();
+             case 4:
+                 col = "title";
+                 table = "movies";
+              break;
+             case 1:
+             case 6:
+             case 5:
+                 col = "director";
+                 table = "movies";
+                 break;
+             case 2:
+                 String exp="";
+                 for (int j = 0; j < 4; j++) {
+                     r = new Random();
+                     ran = r.nextInt(240);
+                     cs = mDb.rawQuery("select year from movies where year!='1700'" + exp + " limit 1 offset " + ran, null);
+
+                     cs.moveToFirst();
+                     while (!cs.isAfterLast()) {
+                         options[i] = Integer.toString(cs.getInt(0));
+                         exp=exp+" and year !='"+options[i]+"'";
+                         cs.moveToNext();
+                     }
+                     i++;
                  }
-                 i++;
-             }
-             return options;
+                 return options;
 
 
-         case 3:
-             for (int k = 0; k < 4; k++) {
-                 r = new Random();
-                 ran = r.nextInt(240);
-                 cs = mDb.rawQuery("select first_name, last_name from stars limit 1 offset " + ran, null);
-                 cs.moveToFirst();
-                 while (!cs.isAfterLast()) {
-                     options[i] = cs.getString(0).replace('"', ' ')+" "+cs.getString(1).replace('"', ' ');
+             case 3:
+                 for (int k = 0; k < 4; k++) {
+                     r = new Random();
+                     ran = r.nextInt(240);
+                     cs = mDb.rawQuery("select first_name, last_name from stars limit 1 offset " + ran, null);
+                     cs.moveToFirst();
+                     while (!cs.isAfterLast()) {
+                         options[i] = cs.getString(0).replace('"', ' ')+" "+cs.getString(1).replace('"', ' ');
 
-                     cs.moveToNext();
+                         cs.moveToNext();
+                     }
+                     i++;
                  }
-                 i++;
-             }
-             return options;
+                 return options;
 
-     }
-
-         //  mDb.execSQL(query);
-             for (int l = 0; l < 4; l++) {
-             r = new Random() ;
-                 ran = r.nextInt(240);
-             cs = mDb.rawQuery("select " + col + " from " + table + " limit 1 offset " + ran, null);
-
-             cs.moveToFirst();
-             while (!cs.isAfterLast()) {
-                 options[i] = cs.getString(0).replace('"', ' ');
-
-                 cs.moveToNext();
-             }
-             i++;
          }
+
+             //  mDb.execSQL(query);
+                 for (int l = 0; l < 4; l++) {
+                 r = new Random() ;
+                     ran = r.nextInt(240);
+                 cs = mDb.rawQuery("select " + col + " from " + table + " limit 1 offset " + ran, null);
+
+                 cs.moveToFirst();
+                 while (!cs.isAfterLast()) {
+                     options[i] = cs.getString(0).replace('"', ' ');
+
+                     cs.moveToNext();
+                 }
+                 i++;
+             }
 
      return options;
  }
@@ -167,13 +168,12 @@ public class QuizDBLoader extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
         onCreate(db);
     }
+
     public  Cursor queryRunner(String query, int count){
         Random r = new Random();
         int ran=0;
         if(count!=0)
          ran = r.nextInt(count);
-
-
         Cursor cs = mDb.rawQuery( query+" limit 1 offset " + ran,null);
         cs.moveToFirst();
         return cs;

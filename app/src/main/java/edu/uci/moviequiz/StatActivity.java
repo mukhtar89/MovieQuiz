@@ -44,6 +44,7 @@ public class StatActivity extends ActionBarActivity {
             public void onClick(View view) {
                 db.resetDB();
                 Intent intent = new Intent(StatActivity.this, StatActivity.class);
+                finish();
                 startActivity(intent);
             }
         });

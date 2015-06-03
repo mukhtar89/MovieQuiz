@@ -48,10 +48,10 @@ public class QuizActivity extends ActionBarActivity {
                 mTimeLabel.setText("Times up");
                 mHandler.removeCallbacks(this);
                 submit.setText("Next");
-                stats.updateDB(false, (int) (duration - elapsed));
-               // Intent intent = new Intent(QuizActivity.this, QuizActivity.class);
-              //  startActivity(intent);
-              // finish();
+                stats.updateDB(false, 0);
+               //Intent intent = new Intent(QuizActivity.this, QuizActivity.class);
+               //startActivity(intent);
+               //finish();
             }
 
         }
