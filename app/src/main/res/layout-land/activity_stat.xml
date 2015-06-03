@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/titleStat"
-        android:padding="10sp"
+        android:padding="5sp"
         android:textColor="#0064A4"
         android:textSize="25sp"
         android:textAlignment="gravity"
@@ -36,7 +36,7 @@
                 android:text="@string/scoreString"
                 android:id="@+id/scoreLabel"
                 android:layout_column="0"
-                android:padding="10sp"
+                android:padding="5sp"
                 android:gravity="right" />
 
             <TextView
@@ -47,7 +47,7 @@
                 android:text="3253325"
                 android:id="@+id/scoreValue"
                 android:layout_column="1"
-                android:padding="10sp"
+                android:padding="5sp"
                 android:gravity="left" />
         </TableRow>
 
@@ -64,7 +64,7 @@
                 android:text="@string/attemptString"
                 android:id="@+id/attemptLabel"
                 android:layout_column="0"
-                android:padding="10sp"
+                android:padding="5sp"
                 android:gravity="right" />
 
             <TextView
@@ -75,7 +75,7 @@
                 android:text=""
                 android:id="@+id/attemptValue"
                 android:layout_column="1"
-                android:padding="10sp"
+                android:padding="5sp"
                 android:gravity="left" />
         </TableRow>
 
@@ -92,7 +92,7 @@
                 android:text="@string/correctString"
                 android:id="@+id/correctLabel"
                 android:layout_column="0"
-                android:padding="10sp"
+                android:padding="5sp"
                 android:gravity="right" />
 
             <TextView
@@ -103,7 +103,7 @@
                 android:text=""
                 android:id="@+id/correctValue"
                 android:layout_column="1"
-                android:padding="10sp"
+                android:padding="5sp"
                 android:gravity="left" />
         </TableRow>
 
@@ -120,7 +120,7 @@
                 android:text="@string/incorrectString"
                 android:id="@+id/incorrectLabel"
                 android:layout_column="0"
-                android:padding="10sp"
+                android:padding="5sp"
                 android:gravity="right" />
 
             <TextView
@@ -131,7 +131,7 @@
                 android:text="536143232"
                 android:id="@+id/incorrectValue"
                 android:layout_column="1"
-                android:padding="10sp"
+                android:padding="5sp"
                 android:gravity="left" />
         </TableRow>
 
@@ -148,7 +148,7 @@
                 android:text="@string/spentString"
                 android:id="@+id/spentLabel"
                 android:layout_column="0"
-                android:padding="10sp"
+                android:padding="5sp"
                 android:gravity="right" />
 
             <TextView
@@ -159,10 +159,17 @@
                 android:text=""
                 android:id="@+id/spentValue"
                 android:layout_column="1"
-                android:padding="10sp"
+                android:padding="5sp"
                 android:gravity="left" />
         </TableRow>
+
     </TableLayout>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/statReset"
+        android:text="@string/statResetText"
+        android:layout_marginTop="220sp" />
 
 
 </RelativeLayout>

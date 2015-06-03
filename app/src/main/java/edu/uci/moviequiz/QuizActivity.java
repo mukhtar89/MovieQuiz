@@ -26,6 +26,7 @@ public class QuizActivity extends ActionBarActivity {
     Button submit;
     private TextView question;
     QuizDBLoader loader;
+    private StatDBAdapter stat;
     RadioButton []radio = new RadioButton[4];
     int timer;
     int ans_no;
@@ -56,6 +57,7 @@ public class QuizActivity extends ActionBarActivity {
                 mTimeLabel.setTextColor(Color.RED);
                 mTimeLabel.setText("Times up");
                 mHandler.removeCallbacks(this);
+                stat.updateDB(false,0);
                 submit.setText("Next");
                // Intent intent = new Intent(QuizActivity.this, QuizActivity.class);
               //  startActivity(intent);
@@ -77,13 +79,14 @@ public class QuizActivity extends ActionBarActivity {
         mTimeLabel = (TextView) this.findViewById(R.id.timeLabel);
         mStart = SystemClock.uptimeMillis();
         mHandler.post(updateTask);
+        stat = new StatDBAdapter(this);
 
         if(savedInstanceState ==null) {
             question = (TextView) findViewById(R.id.quizQuest);
             loader = new QuizDBLoader(this);
 
             Random r = new Random();
-            int selection = r.nextInt(5) + 1;
+            int selection = r.nextInt(6) + 1;
 
             QuizDBLoader.QuestAns questAns = loader.makeQuest(selection);
             String option[] = loader.getOptions(selection,questAns.getAnswer());
@@ -114,18 +117,22 @@ public class QuizActivity extends ActionBarActivity {
         final TextView descion = (TextView)findViewById(R.id.decision);
         descion.setText("");
         descion.setTextSize(25);
+        //StatDBAdapter stats = new StatDBAdapter(this);
         submit = (Button)findViewById(R.id.submit);
 
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(radio[ans_no].isChecked()){
+                if(radio[ans_no].isChecked() && ((duration - elapsed) > 0)){
                     descion.setTextColor(Color.GREEN); descion.setText("correct");
-                }
-                else {
+                    stat.updateDB(true, (int) (duration - elapsed));
+                } else {
                     descion.setText("incorrect");
                     descion.setTextColor(Color.RED);
+                    stat.updateDB(false, (int) (duration - elapsed));
                 }
+
+
 
                 new Handler().postDelayed(new Runnable()  {
                     @Override

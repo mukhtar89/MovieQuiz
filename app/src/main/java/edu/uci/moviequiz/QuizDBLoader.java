@@ -123,13 +123,13 @@ public class QuizDBLoader extends SQLiteOpenHelper {
              }
              return options;
 
-
+         case 7:
          case 3:
              for (int k = 0; k < 4; k++) {
                  r = new Random();
                  ran = r.nextInt(240);
                  String []temp = solution.split(" ");
-                 cs = mDb.rawQuery("select first_name, last_name from stars  where first_name!='"+temp[0]+"' and last_name!='"+temp[1]+"' limit 1 offset " + ran, null);
+                 cs = mDb.rawQuery("select first_name, last_name from stars  where first_name not like '"+temp[0]+"' and last_name not like'"+temp[1]+"' limit 1 offset " + ran, null);
                  cs.moveToFirst();
                  while (!cs.isAfterLast()) {
                      options[i] = cs.getString(0).replace("\"", "")+" "+cs.getString(1).replace("\"", "");
@@ -146,7 +146,7 @@ public class QuizDBLoader extends SQLiteOpenHelper {
              for (int l = 0; l < 4; l++) {
              r = new Random() ;
              ran = r.nextInt(230);
-             cs = mDb.rawQuery("select " + col + " from " + table + " where " + col + "!='" + solution + "' limit 1 offset " + ran, null);
+             cs = mDb.rawQuery("select " + col + " from " + table + " where " + col + " not like '" + solution.replaceAll("'","''") + "' limit 1 offset " + ran, null);
 
              cs.moveToFirst();
              while (!cs.isAfterLast()) {
@@ -180,6 +180,7 @@ public class QuizDBLoader extends SQLiteOpenHelper {
     public QuestAns makeQuest(int select){
         QuestAns qs = new QuestAns();
         Cursor cur ;
+        String query;
         switch (select){
             case 1:
             cur=queryRunner("select title,director from movies",MOVIE_COUNT);
@@ -197,31 +198,25 @@ public class QuizDBLoader extends SQLiteOpenHelper {
                 qs.setAnswer(cur.getString(1).replace("\"", "") + " " + cur.getString(2).replace("\"", ""));
                 break;
             case 4:
-                cur= queryRunner("select title,first_name, last_name,count(*) from movies  join stars  ,stars_in_movies  where movies._id=stars_in_movies.movie_id and stars_in_movies.star_id=stars._id group by title having count(*)>1", STARS_IN_MOVIES_COUNT);
-               //  qs.setQuestion("select title,first_name, last_name from movies  join stars  ,stars_in_movies  where movies._id=stars_in_movies.movie_id and stars_in_movies.star_id=stars._id and movies.title=" + cur.getString(0)+ " and first_name !=" + cur.getString(1).replace('"', ' ').replace(" ", "'") + " and last_name !=" + cur.getString(2).replace('"', ' ').replace(" ", "'") + "");
-               String title_holder=cur.getString(0);
-                title_holder=title_holder.replaceAll("\"","'");
-                String query="select s1.first_name, s1.last_name, s2.first_name,s2.last_name, m.title " +
+
+                query="select s1.first_name, s1.last_name, s2.first_name,s2.last_name, m.title " +
                         "from stars_in_movies sm1, stars_in_movies sm2, stars s1, stars s2, movies m " +
                         "where sm1.star_id not like sm2.star_id " +
                         "and sm1.movie_id = sm2.movie_id " +
                         "and sm1.star_id = s1._id " +
                         "and sm2.star_id = s2._id " +
-                        "and sm1.movie_id = m._id limit 1;";
+                        "and sm1.movie_id = m._id ";
 
                 qs.setQuestion(query);
 
-                 cur= mDb.rawQuery(query, null);
-                //Cursor cur2= mDb.rawQuery(query, null);
-
-                if( cur.moveToFirst() ) {
+                 cur= queryRunner(query, 1160);
+                 if( cur.moveToFirst() ) {
                     qs.setQuestion("In which movie the stars " + cur.getString(0).replace("\"", "") + " " + cur.getString(1).replace("\"", "") + " and  " + cur.getString(2).replace("\"", "") + " " + cur.getString(3).replace("\"", "") + " appear together?");
                     qs.setAnswer(cur.getString(4).replace("\"","") );
                     cur.moveToNext();
                       //qs.setQuestion("Which star was in the movie " + cur.getString(0).replace('"', ' ') + cur.getString(1).replace('"', ' ') + cur.getString(2).replace('"', ' ') + " and " + cur2.getString(1).replace('"', ' ') + cur2.getString(2).replace('"', ' ') + " appear together?");
                 }
-
-                break;
+                 break;
             case 5:
                 cur=queryRunner("select director,first_name, last_name from movies  join stars  ,stars_in_movies  where movies._id=stars_in_movies.movie_id and stars_in_movies.star_id=stars._id ", MOVIE_COUNT);
                 qs.setQuestion("Who directed the star " + cur.getString(1).replace("\"","")+" "+ cur.getString(2).replace("\"","")+"?");
@@ -231,6 +226,26 @@ public class QuizDBLoader extends SQLiteOpenHelper {
                 cur=queryRunner("select director,first_name, last_name,year from movies  join stars  ,stars_in_movies  where movies._id=stars_in_movies.movie_id and stars_in_movies.star_id=stars._id ", MOVIE_COUNT);
                 qs.setQuestion("Who directed the star " + cur.getString(1).replace("\"","")+" "+ cur.getString(2).replace("\"","")+" in year "+cur.getInt(3)+"?");
                 qs.setAnswer(cur.getString(0).replace("\"",""));
+                break;
+            case 7:
+                query="select s1.first_name, s1.last_name, m.title, m1.title " +
+                        "from stars_in_movies sm1, stars_in_movies sm2, stars s1, stars s2, movies m, movies m1 " +
+                        "where sm1.star_id = sm2.star_id " +
+                        "and sm1.movie_id not like sm2.movie_id " +
+                        "and sm1.star_id = s1._id " +
+                        "and sm2.star_id = s2._id " +
+                        "and sm1.movie_id = m._id "+
+                        "and sm2.movie_id = m1._id";
+
+                qs.setQuestion(query);
+
+                cur= queryRunner(query, 1179);
+                if( cur.moveToFirst() ) {
+                    qs.setQuestion("Which star appears in both movies " + cur.getString(2).replace("\"", "") + " and " + cur.getString(3).replace("\"", "") + " ?");
+                    qs.setAnswer(cur.getString(0).replace("\"","")+" "+cur.getString(1).replace("\"",""));
+                    cur.moveToNext();
+                    //qs.setQuestion("Which star was in the movie " + cur.getString(0).replace('"', ' ') + cur.getString(1).replace('"', ' ') + cur.getString(2).replace('"', ' ') + " and " + cur2.getString(1).replace('"', ' ') + cur2.getString(2).replace('"', ' ') + " appear together?");
+                }
                 break;
         }
         return qs;
